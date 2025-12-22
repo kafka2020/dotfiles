@@ -1,0 +1,36 @@
+#!/bin/bash
+set -e
+
+# 1. Install Oh My Zsh (если нет)
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    echo "Installing Oh My Zsh..."
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+fi
+
+# 2. Install Powerlevel10k Theme (если нет)
+P10K_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+if [ ! -d "$P10K_DIR" ]; then
+    echo "Installing Powerlevel10k..."
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_DIR"
+fi
+
+# 3. Install Zsh Plugins (git clone вместо brew!)
+PLUGIN_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins"
+
+# Autosuggestions
+if [ ! -d "$PLUGIN_DIR/zsh-autosuggestions" ]; then
+    git clone https://github.com/zsh-users/zsh-autosuggestions "$PLUGIN_DIR/zsh-autosuggestions"
+fi
+
+# Syntax Highlighting
+if [ ! -d "$PLUGIN_DIR/zsh-syntax-highlighting" ]; then
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$PLUGIN_DIR/zsh-syntax-highlighting"
+fi
+
+# 4. MacOS Specifics (Brew Bundle)
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    if command -v brew &> /dev/null; then
+        echo "Running Brew Bundle..."
+        brew bundle --global # Ищет ~/.Brewfile
+    fi
+fi
