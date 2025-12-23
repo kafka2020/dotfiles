@@ -1,11 +1,15 @@
 #!/bin/bash
 set -e
 
-# 1. Install Oh My Zsh (если нет)
+# 1. Install Oh My Zsh (Non-destructive)
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     echo "Installing Oh My Zsh..."
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    # Флаги важны:
+    # --keep-zshrc : Не трогать существующий .zshrc (который принес yadm)
+    # --unattended : Не запускать zsh сразу после установки (не ломать скрипт)
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
 fi
+
 
 # 2. Install Powerlevel10k Theme (если нет)
 P10K_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
