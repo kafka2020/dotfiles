@@ -53,6 +53,16 @@ alias ls="eza --icons --group-directories-first"
 alias ll="eza --icons --group-directories-first -l --git"
 alias la="eza --icons --group-directories-first -la --git"
 
+
+function yy() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
 # di=1;34 -> directory = bold;blue
-export EZA_COLORS="di=1;34"
+# export EZA_COLORS="di=1;34"
 
