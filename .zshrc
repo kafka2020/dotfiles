@@ -25,6 +25,7 @@ zstyle ':omz:update' frequency 13
 # Убедитесь, что вы их установили через brew, как обсуждали ранее!
 plugins=(
   git
+  z
   zsh-autosuggestions
   zsh-syntax-highlighting
 )
